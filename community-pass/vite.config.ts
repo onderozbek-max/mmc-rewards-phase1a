@@ -4,6 +4,16 @@ import path from "node:path";
 import fs from "node:fs";
 
 export default defineConfig({
+  // GitHub Pages serves this from a repo subpath, not the domain root —
+  // relative asset URLs keep JS/CSS/image references working either way.
+  base: "./",
+  build: {
+    // Emit the production build into /docs at the repo root so GitHub Pages
+    // can serve it directly from the default branch without a CI build step
+    // (CI has no access to the internal npm registry this project installs from).
+    outDir: "../docs",
+    emptyOutDir: true,
+  },
   server: {
     port: 3099,
   },
