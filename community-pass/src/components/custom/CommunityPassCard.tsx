@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Card, CardHeader, CardContent, CardActions } from "../../components/Card";
-import { Body } from "../../components/Text";
-import { ProgressIndicator } from "../../components/ProgressIndicator";
-import { Button } from "../../components/Button";
+import { Body, Heading } from "../../components/Text";
+import { ChevronRightIcon } from "../../components/Icons/Icons";
+import { MilestoneProgressBar } from "./MilestoneProgressBar";
 import { formatPoints, type CommunityPassProgress } from "../../utils/communityPassProgress";
 
 export interface CommunityPassCardProps {
@@ -11,53 +10,64 @@ export interface CommunityPassCardProps {
 }
 
 /**
- * Compact Community Pass entry on Community Home. Answers "what are my
- * points for, and how close am I" at a glance without becoming the loudest
- * thing on the page — Home stays an activities/participation surface first.
+ * Compact Community Pass entry point on Community Home.
+ *
+ * This is deliberately an ORIENTATION + ENTRY POINT, not a rewards
+ * dashboard: enough for a member to glance and know their lifetime points
+ * and distance to the next benefit, then tap through to Community Pass for
+ * the full story. Open Activities — the primary reason members come to
+ * Home — should read as materially more prominent than this.
  */
 export function CommunityPassCard({ progress, onView }: CommunityPassCardProps) {
   const { lifetimePoints, nextMilestone, pointsRemaining, intervalFloor, intervalCeiling } = progress;
-  const intervalValue = lifetimePoints - intervalFloor;
-  const intervalMax = Math.max(1, intervalCeiling - intervalFloor);
 
   return (
-    <Card>
-      <CardHeader title="Community Pass" headingLevel="h3" />
-      <CardContent>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span style={{ fontSize: 32, fontWeight: 800, lineHeight: 1, color: "var(--ld-semantic-color-text)" }}>
-              {formatPoints(lifetimePoints)}
-            </span>
-            <span style={{ fontSize: 15, color: "var(--ld-semantic-color-text-subtle)" }}>lifetime points</span>
-          </div>
+    <button
+      type="button"
+      onClick={onView}
+      aria-label={
+        nextMilestone
+          ? `Community Pass — ${formatPoints(lifetimePoints)} lifetime points, ${formatPoints(pointsRemaining)} points until your next benefit`
+          : `Community Pass — ${formatPoints(lifetimePoints)} lifetime points`
+      }
+      style={{
+        width: "100%",
+        textAlign: "left",
+        background: "var(--ld-semantic-color-surface, #ffffff)",
+        border: "1px solid var(--ld-semantic-color-separator, #e0e8ee)",
+        borderRadius: 12,
+        padding: "14px 16px",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+      }}
+    >
+      <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Heading as="h3" UNSAFE_style={{ margin: 0, fontSize: 15 }}>
+          Community Pass
+        </Heading>
+        <ChevronRightIcon decorative style={{ color: "var(--ld-semantic-color-text-subtle)" }} />
+      </div>
 
-          {nextMilestone ? (
-            <>
-              <ProgressIndicator
-                value={intervalValue}
-                max={intervalMax}
-                label="Progress toward your next benefit"
-                valueLabel={`${formatPoints(lifetimePoints)} pts`}
-              />
-              <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
-                {formatPoints(pointsRemaining)} points until your next benefit
-                <br />
-                Next benefit at {formatPoints(nextMilestone.points)} points
-              </Body>
-            </>
-          ) : (
-            <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
-              You've reached every benefit milestone we've defined so far.
+      <div aria-hidden style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <Body as="div" UNSAFE_style={{ margin: 0, fontSize: 15 }}>
+          <strong>{formatPoints(lifetimePoints)}</strong> lifetime points
+        </Body>
+
+        {nextMilestone ? (
+          <>
+            <MilestoneProgressBar min={intervalFloor} max={intervalCeiling} value={lifetimePoints} a11yLabel="" />
+            <Body as="div" UNSAFE_style={{ margin: 0, fontSize: 13, color: "var(--ld-semantic-color-text-subtle)" }}>
+              {formatPoints(pointsRemaining)} points until your next benefit
             </Body>
-          )}
-        </div>
-      </CardContent>
-      <CardActions>
-        <Button variant="secondary" size="medium" onClick={onView}>
-          View Community Pass
-        </Button>
-      </CardActions>
-    </Card>
+          </>
+        ) : (
+          <Body as="div" UNSAFE_style={{ margin: 0, fontSize: 13, color: "var(--ld-semantic-color-text-subtle)" }}>
+            You've unlocked every benefit milestone we've defined so far.
+          </Body>
+        )}
+      </div>
+    </button>
   );
 }

@@ -62,7 +62,7 @@ export function ActivityPage() {
                     <Heading as="h3" UNSAFE_style={{ margin: "0 0 8px", fontSize: 18 }}>
                       Thanks for your feedback!
                     </Heading>
-                    <Body UNSAFE_style={{ margin: "0 0 20px", color: "var(--ld-semantic-color-text-subtle)" }}>
+                    <Body as="div" UNSAFE_style={{ margin: "0 0 20px", color: "var(--ld-semantic-color-text-subtle)" }}>
                       Your response has been recorded.
                     </Body>
                     <Button variant="primary" size="medium" isFullWidth onClick={handleReturn}>

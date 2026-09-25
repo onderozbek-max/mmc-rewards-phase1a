@@ -22,15 +22,17 @@ export function ActivityCard({ activity, completed, onStart }: ActivityCardProps
           <Heading as="h4" UNSAFE_style={{ margin: 0, fontSize: 16 }}>
             {activity.title}
           </Heading>
-          <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>{activity.description}</Body>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <Tag color="brand" size="small">
-              {activity.points} points
-            </Tag>
-            <Body UNSAFE_style={{ margin: 0, fontSize: 13, color: "var(--ld-semantic-color-text-subtlest)" }}>
-              Ends {formatDate(activity.endDate)}
-            </Body>
-          </div>
+          <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+            {activity.description}
+          </Body>
+          {/*
+           * Points are supporting metadata, not a call to action — plain text
+           * reads more clearly than a chip/tag, which visually implied a
+           * tappable control here.
+           */}
+          <Body as="div" UNSAFE_style={{ margin: 0, fontSize: 13, color: "var(--ld-semantic-color-text-subtlest)" }}>
+            {activity.points} points &nbsp;•&nbsp; Ends {formatDate(activity.endDate)}
+          </Body>
           <div style={{ marginTop: 4 }}>
             {completed ? (
               <Tag color="positive" leading={<CheckCircleIcon decorative />}>

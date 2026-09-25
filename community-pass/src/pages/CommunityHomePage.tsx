@@ -38,7 +38,7 @@ export function CommunityHomePage() {
               <Heading as="h2" UNSAFE_style={{ margin: "0 0 4px", color: "#fff", fontSize: 24 }}>
                 Welcome, {MEMBER_NAME}
               </Heading>
-              <Body UNSAFE_style={{ margin: 0, color: "rgba(255,255,255,0.75)" }}>
+              <Body as="div" UNSAFE_style={{ margin: 0, color: "rgba(255,255,255,0.75)" }}>
                 In the community since June 2026
               </Body>
               <button
@@ -57,7 +57,7 @@ export function CommunityHomePage() {
                   cursor: "pointer",
                 }}
               >
-                <Body UNSAFE_style={{ margin: 0, color: "#fff", fontWeight: 600 }}>
+                <Body as="span" UNSAFE_style={{ margin: 0, color: "#fff", fontWeight: 600 }}>
                   {completedCount} activities completed
                 </Body>
                 <ChevronRightIcon decorative style={{ color: "#fff" }} />
@@ -91,7 +91,7 @@ export function CommunityHomePage() {
                   <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
                     Fall flavor lineup is here
                   </Heading>
-                  <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                  <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
                     See what's new on Member's Mark shelves this season.
                   </Body>
                 </CardContent>
@@ -101,7 +101,7 @@ export function CommunityHomePage() {
                   <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
                     From idea to club: snack packaging
                   </Heading>
-                  <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                  <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
                     See how member feedback shaped our newest packaging redesign.
                   </Body>
                 </CardContent>

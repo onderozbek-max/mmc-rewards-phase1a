@@ -6,18 +6,17 @@ import { Avatar } from "../components/Avatar";
 import { Card, CardContent } from "../components/Card";
 import { Divider } from "../components/Divider";
 import { SectionHeader } from "../components/SectionHeader";
+import { ChevronRightIcon } from "../components/Icons/Icons";
 import { ScreenHeader } from "../components/custom/ScreenHeader";
 import { BottomNavBar, BOTTOM_NAV_HEIGHT } from "../components/custom/BottomNavBar";
-import { CommunityPassCard } from "../components/custom/CommunityPassCard";
 import { FaqCallout } from "../components/custom/FaqCallout";
-import { getCommunityPassProgress, formatDate, formatMonthYear, formatPoints } from "../utils/communityPassProgress";
+import { formatDate, formatMonthYear, formatPoints } from "../utils/communityPassProgress";
 import { navigateTo, useMemberStateId } from "../utils/appState";
 import { getLifetimePoints, MEMBER_NAME, MEMBER_STATES, MEMBER_TENURE_START } from "../data/communityPassData";
 
 export function ProfilePage() {
   const memberStateId = useMemberStateId();
   const lifetimePoints = getLifetimePoints(memberStateId);
-  const progress = getCommunityPassProgress(lifetimePoints);
   const completedActivities = [...MEMBER_STATES[memberStateId].completedActivities].sort((a, b) =>
     a.date < b.date ? 1 : -1,
   );
@@ -34,14 +33,55 @@ export function ProfilePage() {
               <Heading as="h2" UNSAFE_style={{ margin: 0, fontSize: 22 }}>
                 {MEMBER_NAME}
               </Heading>
-              <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+              <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
                 In the community since {formatMonthYear(MEMBER_TENURE_START)}
               </Body>
             </div>
           </div>
 
+          {/*
+           * Deliberately NOT the full Community Pass card here. Profile's job
+           * is Community identity + history, not a second progress dashboard.
+           * Two compact rows keep the lifetime-points figure consistent with
+           * Home/Community Pass without duplicating the progress bar or
+           * distance-to-next-benefit copy.
+           */}
           <div style={{ padding: "20px 16px 0" }}>
-            <CommunityPassCard progress={progress} onView={() => navigateTo("communityPass")} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0" }}>
+              <Body as="div" UNSAFE_style={{ margin: 0 }}>
+                Lifetime points
+              </Body>
+              <Body as="div" UNSAFE_style={{ margin: 0, fontWeight: 700 }}>
+                {formatPoints(lifetimePoints)}
+              </Body>
+            </div>
+            <Divider />
+            <button
+              type="button"
+              onClick={() => navigateTo("communityPass")}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                background: "none",
+                border: "none",
+                padding: "10px 0",
+                cursor: "pointer",
+                textAlign: "left",
+              }}
+            >
+              <Body as="span" UNSAFE_style={{ margin: 0 }}>
+                Community Pass
+              </Body>
+              <span style={{ display: "flex", alignItems: "center", gap: 2, color: "var(--ld-semantic-color-text-link, #0053e2)" }}>
+                <Body as="span" UNSAFE_style={{ margin: 0, color: "inherit", fontWeight: 600 }}>
+                  View
+                </Body>
+                <ChevronRightIcon decorative style={{ color: "inherit" }} />
+              </span>
+            </button>
+            <Divider />
           </div>
 
           <div style={{ padding: "24px 16px 0" }}>
@@ -54,12 +94,12 @@ export function ProfilePage() {
                     <React.Fragment key={activity.id}>
                       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "10px 0" }}>
                         <div>
-                          <Body UNSAFE_style={{ margin: 0, fontWeight: 600 }}>{activity.title}</Body>
-                          <Body UNSAFE_style={{ margin: "2px 0 0", fontSize: 13, color: "var(--ld-semantic-color-text-subtlest)" }}>
+                          <Body as="div" UNSAFE_style={{ margin: 0, fontWeight: 600 }}>{activity.title}</Body>
+                          <Body as="div" UNSAFE_style={{ margin: "2px 0 0", fontSize: 13, color: "var(--ld-semantic-color-text-subtlest)" }}>
                             {formatDate(activity.date)}
                           </Body>
                         </div>
-                        <Body UNSAFE_style={{ margin: 0, fontWeight: 700, whiteSpace: "nowrap" }}>
+                        <Body as="div" UNSAFE_style={{ margin: 0, fontWeight: 700, whiteSpace: "nowrap" }}>
                           +{formatPoints(activity.points)} pts
                         </Body>
                       </div>

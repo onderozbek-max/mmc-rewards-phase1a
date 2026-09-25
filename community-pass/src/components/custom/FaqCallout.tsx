@@ -53,8 +53,8 @@ export function FaqCallout() {
           {FAQS.map((item, i) => (
             <React.Fragment key={item.q}>
               <div>
-                <Body UNSAFE_style={{ margin: "0 0 4px", fontWeight: 700 }}>{item.q}</Body>
-                <Body UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>{item.a}</Body>
+                <Body as="div" UNSAFE_style={{ margin: "0 0 4px", fontWeight: 700 }}>{item.q}</Body>
+                <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>{item.a}</Body>
               </div>
               {i < FAQS.length - 1 ? <Divider /> : null}
             </React.Fragment>
