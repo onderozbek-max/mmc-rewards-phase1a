@@ -16,10 +16,16 @@ const Q1_OPTIONS = ["Very likely", "Somewhat likely", "Not likely"];
 const Q2_OPTIONS = ["Great", "Okay", "Not great"];
 
 /**
- * Simulated RedJade-style survey activity. Phase 1A scope: a believable
- * complete/return loop, no rich post-completion earning feedback (that's
- * 1C). The member state does not change on completion — the activity card
- * simply flips to "Completed" for the rest of the session.
+ * Simulated RedJade-style survey activity.
+ *
+ * Phase 1A scope: successful completion truthfully awards the activity's
+ * points to the member's underlying lifetime-point state (reflected on
+ * Home, Community Pass, and Profile immediately). What Phase 1A does NOT
+ * include is a dedicated post-completion earn/progress feedback moment —
+ * no "+30 points" message, no progress animation, no "you moved closer"
+ * copy. That explicit causal-feedback experience is Phase 1C. Opening the
+ * activity or exiting before Submit awards nothing; the activity can only
+ * be completed — and only award its points — once per session.
  */
 export function ActivityPage() {
   const activityId = useActiveActivityId();
@@ -28,8 +34,16 @@ export function ActivityPage() {
   const [q2, setQ2] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
 
+  function handleSubmit() {
+    // Points are awarded at the moment of successful completion — not when
+    // the member opens the activity, and not deferred until they navigate
+    // back. This is a plain state update: no completion sheet, no "+30
+    // points" message, no progress animation.
+    markOpenActivityCompleted(activity);
+    setSubmitted(true);
+  }
+
   function handleReturn() {
-    markOpenActivityCompleted(activity.id);
     navigateTo("home");
   }
 
@@ -110,7 +124,7 @@ export function ActivityPage() {
                       size="medium"
                       isFullWidth
                       disabled={!q1 || !q2}
-                      onClick={() => setSubmitted(true)}
+                      onClick={handleSubmit}
                     >
                       Submit
                     </Button>

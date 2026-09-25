@@ -11,15 +11,13 @@ import { ScreenHeader } from "../components/custom/ScreenHeader";
 import { BottomNavBar, BOTTOM_NAV_HEIGHT } from "../components/custom/BottomNavBar";
 import { FaqCallout } from "../components/custom/FaqCallout";
 import { formatDate, formatMonthYear, formatPoints } from "../utils/communityPassProgress";
-import { navigateTo, useMemberStateId } from "../utils/appState";
-import { getLifetimePoints, MEMBER_NAME, MEMBER_STATES, MEMBER_TENURE_START } from "../data/communityPassData";
+import { navigateTo, useCompletedActivitiesForProfile, useLifetimePoints, useMemberStateId } from "../utils/appState";
+import { MEMBER_NAME, MEMBER_STATES, MEMBER_TENURE_START } from "../data/communityPassData";
 
 export function ProfilePage() {
   const memberStateId = useMemberStateId();
-  const lifetimePoints = getLifetimePoints(memberStateId);
-  const completedActivities = [...MEMBER_STATES[memberStateId].completedActivities].sort((a, b) =>
-    a.date < b.date ? 1 : -1,
-  );
+  const lifetimePoints = useLifetimePoints();
+  const completedActivities = useCompletedActivitiesForProfile(MEMBER_STATES[memberStateId].completedActivities);
 
   return (
     <Page title="Profile" titleVisuallyHidden>
