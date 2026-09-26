@@ -1,0 +1,17 @@
+/*
+ * Desktop/laptop-only stakeholder review shell. Lives OUTSIDE the simulated
+ * mobile product (see App.tsx) and must be fully hidden — not just
+ * off-screen — below phone-sized browser widths, since MMC only exists as a
+ * mobile app screen. Inline styles can't express a media query, so this
+ * scoped companion stylesheet (same pattern as BottomNavBar.css) carries the
+ * one rule that matters.
+ */
+.mmc-stakeholder-shell {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .mmc-stakeholder-shell {
+    display: none;
+  }
+}

@@ -8,6 +8,7 @@ import { CommunityPassPage } from "./pages/CommunityPassPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { ActivityPage } from "./pages/ActivityPage";
 import { DevStateSwitcher } from "./components/custom/DevStateSwitcher";
+import { StakeholderShell } from "./components/custom/StakeholderShell";
 import { useView, setMemberStateId } from "./utils/appState";
 import type { MemberStateId } from "./data/communityPassData";
 
@@ -47,7 +48,8 @@ export default function App() {
           minHeight: "100vh",
           background: "#e4e4e4",
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <div
@@ -70,6 +72,13 @@ export default function App() {
             <CommunityHomePage />
           )}
         </div>
+
+        {/*
+         * Stakeholder review shell — desktop/laptop only, entirely hidden on
+         * phone-sized widths (see StakeholderShell.css). Lives outside the
+         * mobile frame above; never part of the simulated member experience.
+         */}
+        <StakeholderShell />
       </div>
       <DevStateSwitcher />
     </A11yAnnouncementProvider>

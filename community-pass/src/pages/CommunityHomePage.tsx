@@ -9,7 +9,7 @@ import { BottomNavBar, BOTTOM_NAV_HEIGHT } from "../components/custom/BottomNavB
 import { CommunityPassCard } from "../components/custom/CommunityPassCard";
 import { ActivityCard } from "../components/custom/ActivityCard";
 import { FaqCallout } from "../components/custom/FaqCallout";
-import { ChevronRightIcon } from "../components/Icons/Icons";
+import { ChevronRightIcon, LockIcon } from "../components/Icons/Icons";
 import { getCommunityPassProgress } from "../utils/communityPassProgress";
 import { navigateTo, useCompletedOpenActivityIds, useLifetimePoints, useMemberStateId } from "../utils/appState";
 import { MEMBER_NAME, MEMBER_STATES, OPEN_ACTIVITIES } from "../data/communityPassData";
@@ -83,31 +83,77 @@ export function CommunityHomePage() {
             </div>
           </div>
 
-          <div style={{ padding: "24px 16px 0" }}>
-            <SectionHeader title="What's new" headingLevel="h3" divider />
-            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 12 }}>
-              <Card>
-                <CardContent>
-                  <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
-                    Fall flavor lineup is here
-                  </Heading>
-                  <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
-                    See what's new on Member's Mark shelves this season.
-                  </Body>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent>
-                  <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
-                    From idea to club: snack packaging
-                  </Heading>
-                  <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
-                    See how member feedback shaped our newest packaging redesign.
-                  </Body>
-                </CardContent>
-              </Card>
+          {progress.firstBenefitUnlocked ? (
+            <>
+              <div style={{ padding: "24px 16px 0" }}>
+                <SectionHeader title="What's new" headingLevel="h3" divider />
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 12 }}>
+                  <Card>
+                    <CardContent>
+                      <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
+                        Fall flavor lineup is here
+                      </Heading>
+                      <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                        See what's new on Member's Mark shelves this season.
+                      </Body>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent>
+                      <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
+                        From idea to club: snack packaging
+                      </Heading>
+                      <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                        See how member feedback shaped our newest packaging redesign.
+                      </Body>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              <div style={{ padding: "24px 16px 0" }}>
+                <SectionHeader title="Member Favorites" headingLevel="h3" divider />
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 12 }}>
+                  <Card>
+                    <CardContent>
+                      <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
+                        Your go-to snack picks
+                      </Heading>
+                      <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                        Based on items members like you buy often.
+                      </Body>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent>
+                      <Heading as="h4" UNSAFE_style={{ margin: "0 0 4px", fontSize: 15 }}>
+                        Reordered the most this month
+                      </Heading>
+                      <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                        See what's trending among Member's Mark shoppers.
+                      </Body>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div style={{ padding: "24px 16px 0" }}>
+              <SectionHeader title="What's New + Member Favorites" headingLevel="h3" divider />
+              <div style={{ marginTop: 12 }}>
+                <Card>
+                  <CardContent>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <LockIcon decorative style={{ color: "var(--ld-semantic-color-text-subtle)", marginTop: 2 }} />
+                      <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                        Unlocks at 250 lifetime points.
+                      </Body>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </div>
+          )}
 
           <div style={{ padding: "24px 16px 0" }}>
             <FaqCallout />

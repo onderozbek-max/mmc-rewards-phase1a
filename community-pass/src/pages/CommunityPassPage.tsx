@@ -22,7 +22,7 @@ import { MILESTONES } from "../data/communityPassData";
 export function CommunityPassPage() {
   const lifetimePoints = useLifetimePoints();
   const progress = getCommunityPassProgress(lifetimePoints);
-  const { nextMilestone, pointsRemaining, intervalFloor, intervalCeiling } = progress;
+  const { firstBenefit, firstBenefitUnlocked, pointsRemainingToFirstBenefit } = progress;
 
   return (
     <Page title="Community Pass" titleVisuallyHidden>
@@ -58,27 +58,35 @@ export function CommunityPassPage() {
                 <span style={{ fontSize: 14, color: "var(--ld-semantic-color-text-subtle)" }}>lifetime points</span>
               </div>
 
-              {nextMilestone ? (
+              {!firstBenefitUnlocked ? (
                 <>
                   <MilestoneProgressBar
-                    min={intervalFloor}
-                    max={intervalCeiling}
+                    min={0}
+                    max={firstBenefit.points}
                     value={lifetimePoints}
-                    a11yLabel={`${formatPoints(lifetimePoints)} of ${formatPoints(intervalCeiling)} lifetime points toward your next benefit`}
+                    a11yLabel={`${formatPoints(lifetimePoints)} of ${formatPoints(firstBenefit.points)} lifetime points toward your next benefit`}
                   />
                   <div>
                     <Body as="div" UNSAFE_style={{ margin: 0, fontWeight: 700 }}>
-                      Next benefit: {nextMilestone.benefit}
+                      Next benefit: {firstBenefit.benefit}
                     </Body>
                     <Body as="div" UNSAFE_style={{ margin: "2px 0 0", color: "var(--ld-semantic-color-text-subtle)" }}>
-                      {formatPoints(pointsRemaining)} points remaining
+                      {formatPoints(pointsRemainingToFirstBenefit)} points remaining
                     </Body>
                   </div>
                 </>
               ) : (
-                <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
-                  You've unlocked every benefit milestone we've defined so far.
-                </Body>
+                <>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <CheckCircleIcon decorative style={{ color: "var(--ld-semantic-color-text-positive)" }} />
+                    <Body as="div" UNSAFE_style={{ margin: 0, fontWeight: 700 }}>
+                      {formatPoints(firstBenefit.points)}-point milestone: Completed
+                    </Body>
+                  </div>
+                  <Body as="div" UNSAFE_style={{ margin: 0, color: "var(--ld-semantic-color-text-subtle)" }}>
+                    Benefit unlocked: {firstBenefit.benefit}
+                  </Body>
+                </>
               )}
             </div>
           </div>
@@ -97,8 +105,14 @@ export function CommunityPassPage() {
 
             <div>
               {MILESTONES.map((m, i) => {
-                const isUnlocked = lifetimePoints >= m.points;
-                const isNext = nextMilestone?.points === m.points;
+                // Only the first, operational milestone (250) has real
+                // achieved/next semantics in Phase 1A. 1,000 and 3,000 are
+                // real future milestones, but since no benefit is built for
+                // them yet, they always render as a plain future entry —
+                // never "achieved," no matter how many lifetime points a
+                // member has (see Milestone.operational).
+                const isUnlocked = m.operational && lifetimePoints >= m.points;
+                const isNext = m.operational && !isUnlocked;
                 const isLast = i === MILESTONES.length - 1;
                 const lineColor = isUnlocked
                   ? "var(--wcp-semantic-color-surface-overlay-brand-bold, #283645)"
@@ -151,6 +165,10 @@ export function CommunityPassPage() {
                       ) : isNext ? (
                         <Tag color="brand" size="small">
                           Next benefit
+                        </Tag>
+                      ) : !m.operational ? (
+                        <Tag color="neutral" size="small">
+                          Future milestone
                         </Tag>
                       ) : null}
                     </div>

@@ -34,14 +34,27 @@ export interface OpenActivity {
 export interface Milestone {
   points: number;
   benefit: string;
+  /**
+   * Whether this milestone's benefit is actually built and gated in the
+   * running product yet. Phase 1A operationalizes only the first milestone
+   * (250) — "What's New" and "Member Favorites" genuinely unlock at that
+   * threshold. 1,000 and 3,000 are real future milestones on the roadmap,
+   * but are NOT wired to any benefit yet, and must never be presented as an
+   * active "next benefit" promise, no matter how many lifetime points a
+   * member has. Operationalizing them is Phase 1E scope.
+   */
+  operational: boolean;
 }
 
 /** Benefit unlock thresholds, in lifetime points. Order matters. */
 export const MILESTONES: Milestone[] = [
-  { points: 250, benefit: "Early access to select Member's Mark opportunities" },
-  { points: 1000, benefit: "Additional Community benefits" },
-  { points: 3000, benefit: "More Community benefits" },
+  { points: 250, benefit: "What's New + Member Favorites", operational: true },
+  { points: 1000, benefit: "Additional Community benefits", operational: false },
+  { points: 3000, benefit: "More Community benefits", operational: false },
 ];
+
+/** The one milestone Phase 1A actually operationalizes. */
+export const FIRST_BENEFIT: Milestone = MILESTONES[0];
 
 /** Today, fixed for prototype determinism (matches the environment date). */
 export const PROTOTYPE_TODAY = "2026-09-24";
@@ -184,12 +197,12 @@ export const MEMBER_STATES: Record<MemberStateId, MemberState> = {
   },
   D: {
     id: "D",
-    devLabel: "First benefit unlocked (300 pts)",
-    completedActivities: buildCompletedActivities(300, MEMBER_TENURE_START),
+    devLabel: "First benefit unlocked (270 pts)",
+    completedActivities: buildCompletedActivities(270, MEMBER_TENURE_START),
   },
   E: {
     id: "E",
-    devLabel: "Higher progress (1,200 pts)",
+    devLabel: "Architecture test only — not an operational benefit (1,200 pts)",
     completedActivities: buildCompletedActivities(1200, MEMBER_TENURE_START),
   },
 };

@@ -16,7 +16,7 @@ const FAQS: Array<{ q: string; a: string }> = [
   },
   {
     q: "What are my points for?",
-    a: "Your lifetime points move you toward Community Pass benefit milestones. See Community Pass for your current progress.",
+    a: "Your lifetime points move you toward Community Pass benefit milestones — starting with What's New and Member Favorites at 250 points. See Community Pass for your current progress.",
   },
   {
     q: "Do my points expire?",
