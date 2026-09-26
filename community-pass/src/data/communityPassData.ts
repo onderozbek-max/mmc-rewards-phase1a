@@ -66,6 +66,14 @@ export const MEMBER_TENURE_START = "2026-06-01"; // "In the community since June
 // Open activities — shown on Community Home regardless of member state.
 // ---------------------------------------------------------------------------
 
+/**
+ * Available points-eligible activities always total enough for the default
+ * demo journey (State B, 180 lifetime points) to naturally cross the
+ * 250-point first benefit through ordinary use — no dev/prototype controls
+ * required: 180 + 30 + 20 + 30 = 260. Keep this total at or above 70
+ * (the distance from the default starting state to the first benefit) if
+ * this list is ever revised.
+ */
 export const OPEN_ACTIVITIES: OpenActivity[] = [
   {
     id: "shape-products",
@@ -80,10 +88,19 @@ export const OPEN_ACTIVITIES: OpenActivity[] = [
     id: "tell-us",
     title: "Tell us what you think",
     description: "Share your take on products and experiences.",
-    points: 10,
+    points: 20,
     endDate: "2026-10-15",
     illustrationType: "spot",
     illustrationName: "Featured",
+  },
+  {
+    id: "visit-feedback",
+    title: "How was today's visit?",
+    description: "A quick check-in about your latest club visit.",
+    points: 30,
+    endDate: "2026-11-10",
+    illustrationType: "spot",
+    illustrationName: "StoreFront",
   },
 ];
 
