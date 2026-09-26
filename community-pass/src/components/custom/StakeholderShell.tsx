@@ -54,9 +54,9 @@ export function StakeholderShell() {
         What this establishes
       </Heading>
       <Body as="div" UNSAFE_style={{ margin: "0 0 20px", color: "var(--ld-semantic-color-text-subtle)" }}>
-        The points members already earn in MMC now have a working, truthful purpose. Completing an eligible
-        Community activity updates the member's real lifetime-point total, and the first benefit milestone
-        (250 points) genuinely unlocks — not just in copy, in the running product.
+        Phase 1A's purpose is to make points valuable. The points members already earn in MMC now have a working,
+        truthful purpose. Completing an eligible Community activity updates the member's real lifetime-point total,
+        and the first benefit milestone (250 points) genuinely unlocks — not just in copy, in the running product.
       </Body>
 
       <Heading as="h3" UNSAFE_style={{ margin: "0 0 8px", fontSize: 15 }}>

@@ -26,7 +26,7 @@ const SCENARIOS: Scenario[] = [
 ];
 
 /** Secondary states, kept for architecture/QA testing beyond the three named scenarios. */
-const OTHER_STATE_ORDER: MemberStateId[] = ["A", "E"];
+const OTHER_STATE_ORDER: MemberStateId[] = ["A", "E", "F"];
 
 /**
  * Design-review-only member-state switcher. NOT part of the member

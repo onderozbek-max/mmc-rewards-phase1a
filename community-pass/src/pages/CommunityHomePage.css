@@ -1,0 +1,13 @@
+/*
+ * SectionHeader's default title treatment assumes short section titles
+ * (e.g. "Open activities", "What's new") and truncates with an ellipsis on
+ * a single line. The locked-benefit teaser title, "What's New + Member
+ * Favorites", is long enough to clip at narrow mobile widths (verified at
+ * 390px and 320px during the Phase 1A acceptance audit). Allow this one
+ * instance to wrap onto multiple lines instead of truncating.
+ */
+.mmc-benefit-teaser-header .ld-section-header__title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}

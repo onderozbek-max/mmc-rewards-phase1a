@@ -12,7 +12,7 @@ import { StakeholderShell } from "./components/custom/StakeholderShell";
 import { useView, setMemberStateId } from "./utils/appState";
 import type { MemberStateId } from "./data/communityPassData";
 
-const VALID_STATE_IDS: MemberStateId[] = ["A", "B", "C", "D", "E"];
+const VALID_STATE_IDS: MemberStateId[] = ["A", "B", "C", "D", "E", "F"];
 
 export default function App() {
   // Member's Mark Community is Sam's Club private-label branded.
