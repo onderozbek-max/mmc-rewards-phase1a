@@ -1,9 +1,32 @@
 import * as React from "react";
 import { Button } from "../../components/Button";
-import { MEMBER_STATES, type MemberStateId } from "../../data/communityPassData";
+import { DEFAULT_MEMBER_STATE_ID, MEMBER_STATES, type MemberStateId } from "../../data/communityPassData";
 import { useMemberStateId, setMemberStateId } from "../../utils/appState";
 
-const STATE_ORDER: MemberStateId[] = ["A", "B", "C", "D", "E"];
+/**
+ * Named milestone-boundary scenarios for deterministic QA/demo — Product,
+ * Design, Engineering, and stakeholders should be able to land on "just
+ * below 250" or "just past 250" without hunting through opaque state
+ * letters or completing an unrealistic number of mock activities. Each maps
+ * onto an existing representative member state (no new state machinery,
+ * no change to point economics) — this is a labeling/entry-point layer on
+ * top of the existing dev-state architecture.
+ */
+interface Scenario {
+  key: string;
+  label: string;
+  points: number;
+  stateId: MemberStateId;
+}
+
+const SCENARIOS: Scenario[] = [
+  { key: "normal", label: "Normal Progression", points: 180, stateId: "B" },
+  { key: "near", label: "Near Milestone", points: 240, stateId: "C" },
+  { key: "achieved", label: "Milestone Achieved", points: 270, stateId: "D" },
+];
+
+/** Secondary states, kept for architecture/QA testing beyond the three named scenarios. */
+const OTHER_STATE_ORDER: MemberStateId[] = ["A", "E"];
 
 /**
  * Design-review-only member-state switcher. NOT part of the member
@@ -37,15 +60,35 @@ export function DevStateSwitcher() {
         padding: 8,
         display: "flex",
         flexDirection: "column",
-        gap: 4,
+        gap: 6,
         boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+        maxWidth: 200,
       }}
     >
       <span style={{ color: "#fff", fontSize: 10, fontWeight: 700, letterSpacing: "0.05em", padding: "0 4px" }}>
-        DEV — MEMBER STATE
+        DEV — SCENARIOS
+      </span>
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {SCENARIOS.map((scenario) => (
+          <Button
+            key={scenario.key}
+            size="small"
+            variant={current === scenario.stateId ? "primary" : "tertiary"}
+            onClick={() => setMemberStateId(scenario.stateId)}
+          >
+            {scenario.label} ({scenario.points})
+          </Button>
+        ))}
+        <Button size="small" variant="tertiary" onClick={() => setMemberStateId(DEFAULT_MEMBER_STATE_ID)}>
+          Reset
+        </Button>
+      </div>
+
+      <span style={{ color: "#a7b0b9", fontSize: 10, fontWeight: 700, letterSpacing: "0.05em", padding: "0 4px" }}>
+        OTHER TEST STATES
       </span>
       <div style={{ display: "flex", gap: 4 }}>
-        {STATE_ORDER.map((id) => (
+        {OTHER_STATE_ORDER.map((id) => (
           <Button
             key={id}
             size="small"
@@ -56,7 +99,8 @@ export function DevStateSwitcher() {
           </Button>
         ))}
       </div>
-      <span style={{ color: "#cfd6dc", fontSize: 10, padding: "0 4px", maxWidth: 160 }}>
+
+      <span style={{ color: "#cfd6dc", fontSize: 10, padding: "0 4px" }}>
         {MEMBER_STATES[current].devLabel}
       </span>
     </div>
